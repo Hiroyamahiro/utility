@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NIGHTREIGN｜夜の王 予測＆タイマー</title>
+<style>
+:root{color-scheme:dark;--bg:#0d121b;--panel:#161e2b;--line:#334154;--text:#eef3fa;--muted:#a8b5c7;--gold:#efd291;--blue:#86bfff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,'Yu Gothic',sans-serif}main{max-width:1180px;margin:auto;padding:26px 22px 40px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}h1{font-size:23px;margin:0}h1 small{display:block;font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:6px}button{font:inherit;cursor:pointer;background:#202c3e;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:13px 16px;min-height:49px}button:hover{background:#2a3d56;border-color:var(--blue)}button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}button.selected{border-color:var(--gold);background:#413924;color:#fff3d4}button:disabled{opacity:.4;cursor:default}.subtle{font-size:13px;color:var(--muted)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px}.timer-panel{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.time{font-size:clamp(52px,8vw,78px);font-variant-numeric:tabular-nums;font-weight:650;line-height:1.1;letter-spacing:2px}.time-label{color:var(--gold);font-size:14px;margin-bottom:8px}.controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.primary{background:#dfc184;color:#171b22;font-weight:750;border-color:#dfc184}.primary:hover{background:#f4d69a}.track{height:8px;background:#2a3444;border-radius:8px;position:relative;margin:24px 0 8px;overflow:hidden}.fill{height:100%;background:var(--gold);width:0}.mark{position:absolute;left:40.909%;top:0;height:100%;border-left:2px solid #fff}.ticks{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.status{font-size:20px;font-weight:650}.kings{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.king{padding:12px 19px;border:1px solid #665b40;background:#2a2926;border-radius:9px;color:var(--gold);font-size:20px;font-weight:700}.confirmed{border-color:var(--gold)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}h2{font-size:17px;margin:0}.number{display:inline-grid;place-items:center;border:1px solid var(--line);width:28px;height:28px;border-radius:50%;margin-right:10px;color:var(--gold)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.boss{text-align:left;display:flex;flex-direction:column;justify-content:center;font-size:16px;font-weight:600;min-height:72px}.boss small{font-size:12px;color:var(--muted);font-weight:400;margin-top:6px}.empty{padding:20px;color:var(--muted);border:1px dashed var(--line);border-radius:10px}.note{line-height:1.8;font-size:12px;color:var(--muted)}.text-button{font-size:12px;min-height:36px;padding:7px 10px}.result-head{display:flex;gap:12px;align-items:center;justify-content:space-between}.count{color:var(--gold);font-size:14px}.selection{color:var(--muted);font-size:13px;line-height:1.8;margin-top:12px} @media(max-width:700px){main{padding:16px 12px}.panel{padding:17px}.timer-panel{grid-template-columns:1fr;gap:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:19px}.boss{font-size:14px}.king{font-size:18px}.timer-panel .track{margin-top:15px}}@media(max-width:380px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header><h1><small>NIGHTREIGN COMPANION</small>夜の王 予測＆タイマー</h1><button id="reset" class="text-button">すべてリセット</button></header>
+<section class="panel timer-panel" aria-label="日のタイマー">
+ <div><div id="dayLabel" class="time-label">1日目・開始前</div><div class="time" id="time">00:00</div><div class="controls"><button class="primary" id="start1">1日目 開始</button><button class="primary" id="start2">2日目 開始</button><button id="pause" disabled>一時停止</button></div><div class="controls"><button id="back10">−10秒 戻る</button><button id="forward10">＋10秒 進める</button></div></div>
+ <div><div class="subtle">次の節目</div><div class="status" id="next">収縮まで 04:30</div><div class="track"><div class="fill" id="fill"></div><span class="mark"></span></div><div class="ticks"><span>開始</span><span>4:30 収縮</span><span>11:00 最終収縮開始</span></div><p class="subtle">各日の開始時にボタンを押してください。<br>11分で停止。ボス討伐後、手動で2日目を開始します。</p></div>
+</section>
+<section class="panel" id="result" aria-live="polite"><div class="result-head"><h2>夜の王候補</h2><span class="count" id="count"></span></div><div class="kings" id="kings"></div><div class="selection" id="selection"></div></section>
+<section class="panel"><div class="section-head"><h2><span class="number">1</span>1日目のボスを選ぶ</h2><button id="clear1" class="text-button">選択解除</button></div><div class="grid" id="bosses1"></div></section>
+<section class="panel"><div class="section-head"><h2><span class="number">2</span>2日目のボスで絞る</h2><button id="clear2" class="text-button">選択解除</button></div><div id="bosses2" class="grid"></div></section>
+</main>
+<script>
+'use strict';
+const kings=['グラディウス','エデレ','マリス','リブラ','フルゴール','グノスター','カリゴ'];
+const first=[
+ ['亜人の女王＆亜人の剣聖',[0]],['英雄のガーゴイル',[1,2]],['王族の幽鬼',[3,4]],['公のフレイディア',[1,3,6]],['鈴玉狩り',[0]],['戦場の宿将',[5,3,4]],['爛れた樹霊',[5,6]],['接ぎ木の君主',[2,6]],['ティビアの呼び舟',[5,3,6]],['貪食ドラゴン',[1,2,4]],['ミミズ顔',[1,2,4]],['百足のデーモン',[5,3,4]],['熔鉄デーモン',[5,2,6]],['夜の騎兵×2',[1,4]]
+];
+const second=[
+ ['忌み鬼',[0]],['神肌の貴種＆神肌の使徒',[3,2,6]],['古竜',[1]],['死儀礼の鳥',[3]],['大土竜',[5]],['冷たい谷の踊り子',[6]],['ツリーガード＆王都の騎兵',[0,2]],['ノクスの竜人兵',[5,4]],['降る星の成獣',[2]],['僻地の宿将',[1,4]],['無名の王',[4]],['竜のツリーガード＆王都の騎兵',[5,6]],['坩堝の騎士＆黄金カバ',[1,3]]
+];
+let selected1=null,selected2=null,day=1,elapsed=0,startedAt=null;
+const $=id=>document.getElementById(id);
+const fmt=ms=>{const s=Math.floor(Math.max(0,ms)/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+function candidates(){const base=selected1===null?kings.map((_,i)=>i):first[selected1][1];return selected2===null?base:base.filter(k=>second[selected2][1].includes(k))}
+function bossButton(entry,index,selected,handler,valid){const b=document.createElement('button');b.className='boss'+(selected===index?' selected':'');b.setAttribute('aria-pressed',String(selected===index));const name=document.createElement('span');name.textContent=entry[0];b.append(name);const small=document.createElement('small');small.textContent=entry[1].filter(k=>!valid||valid.includes(k)).map(k=>kings[k]).join(' / ');b.append(small);b.onclick=()=>handler(index);return b}
+function render(){
+ const list=[...candidates().map(k=>kings[k]),'ナメレス'];$('count').textContent=list.length+'候補';$('kings').replaceChildren(...list.map(name=>{const e=document.createElement('span');e.className='king';e.textContent=name;return e}));
+ $('selection').textContent=selected1===null?'まず1日目のボスを押すと、対応する2日目のボスが並びます。':'1日目：'+first[selected1][0]+(selected2===null?' ／ 2日目：未選択':' ／ 2日目：'+second[selected2][0]);
+ $('bosses1').replaceChildren(...first.map((e,i)=>bossButton(e,i,selected1,n=>{selected1=selected1===n?null:n;selected2=null;render()})));
+ const container=$('bosses2');container.replaceChildren();if(selected1===null){const e=document.createElement('div');e.className='empty';e.style.gridColumn='1 / -1';e.textContent='1日目のボスを選択してください';container.append(e)}else{const valid=first[selected1][1];second.forEach((e,i)=>{if(e[1].some(k=>valid.includes(k)))container.append(bossButton(e,i,selected2,n=>{selected2=selected2===n?null:n;render()},valid))})}
+ $('clear1').disabled=selected1===null;$('clear2').disabled=selected2===null;
+}
+function currentElapsed(){return Math.min(660000,elapsed+(startedAt===null?0:performance.now()-startedAt))}
+function tick(){const ms=currentElapsed();if(ms>=660000){elapsed=660000;startedAt=null}$('time').textContent=fmt(ms);$('dayLabel').textContent=day+'日目・'+(ms>=660000?'最終収縮開始':startedAt!==null?'進行中':ms>0?'一時停止中':'開始前');$('next').textContent=ms>=660000?'最終収縮開始':ms>=270000?'最終収縮開始まで '+fmt(660000-ms):'収縮まで '+fmt(270000-ms);$('fill').style.width=(ms/660000*100)+'%';$('pause').disabled=ms===0&&startedAt===null||ms>=660000;$('pause').textContent=startedAt===null?'再開':'一時停止';$('start1').disabled=day===1&&(startedAt!==null||ms>0);$('start2').disabled=day===2&&(startedAt!==null||ms>0)}
+function adjustTime(delta){const running=startedAt!==null;elapsed=Math.max(0,Math.min(660000,currentElapsed()+delta));startedAt=running&&elapsed<660000?performance.now():null;tick()}
+ $('back10').onclick=()=>adjustTime(-10000);$('forward10').onclick=()=>adjustTime(10000);
+function start(d){day=d;elapsed=0;startedAt=performance.now();tick()}
+ $('start1').onclick=()=>start(1);$('start2').onclick=()=>start(2);$('pause').onclick=()=>{if(startedAt===null)startedAt=performance.now();else{elapsed=currentElapsed();startedAt=null}tick()};
+ $('clear1').onclick=()=>{selected1=null;selected2=null;render()};$('clear2').onclick=()=>{selected2=null;render()};$('reset').onclick=()=>{selected1=null;selected2=null;day=1;elapsed=0;startedAt=null;render();tick()};
+ render();tick();setInterval(tick,200);
+</script>
+</body>
+</html>
